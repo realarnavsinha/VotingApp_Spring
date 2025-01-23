@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <!-- bean definitions here -->    
+	
+	<!-- handler mapper -->
+	
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/register">reg</prop>
+     			<prop key="/login">lg</prop>
+     			<prop key="/logout">lo</prop>
+     			<prop key="/adminlogin">alg</prop>
+     			<prop key="/adminlogout">alo</prop>
+     			<prop key="/addc">ac</prop>
+     			<prop key="/deletecandidate">dc</prop>
+     			<prop key="/vote">v</prop>
+			</props>
+		</property>
+	</bean>
+	
+	 <bean id="reg" class="com.Controller.Register"></bean>
+     <bean id="lg" class="com.Controller.Login"></bean>
+     <bean id="lo" class="com.Controller.Logout"></bean>
+     <bean id="alg" class="com.Controller.AdminLogin"></bean>
+     <bean id="alo" class="com.Controller.AdminLogout"></bean>
+     <bean id="ac" class="com.Controller.AddCandidate"></bean>
+     <bean id="dc" class="com.Controller.DeleteCandidate"></bean>
+	 <bean id="v" class="com.Controller.Vote"></bean>
+	 
+		
+	<!-- view resolver 
+	-->
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- data source -->
+	
+	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/spring"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value=""></property>
+	</bean>
+	
+	<!-- jdbc Template -->
+	
+	<bean id="jdbct" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+	
+	<!-- Dao layer UserDao and VoteDao, CandidateDao -->
+	
+	<bean id="uDao" class="com.Dao.UserDao">
+		<property name="jt" ref="jdbct"></property>
+	</bean>
+	
+	<bean id="vDao" class="com.Dao.VoteDao">
+		<property name="jt" ref="jdbct"></property>
+	</bean>
+	
+	<bean id="cDao" class="com.Dao.CandidateDao">
+       	<property name="jt" ref="jdbct"></property>
+    </bean>
+
+</beans>
